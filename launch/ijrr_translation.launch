@@ -1,0 +1,48 @@
+<launch>
+
+  <node pkg="rosbag" type="play" name="player" args="-r 0.2 -s 0 /home/word/Desktop/project_ev/slider_depth.bag"/>
+
+  <!-- configure -->
+  <!-- <node name="rqt_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure" /> -->
+  <node name="oflow" pkg="dvs_global_flow" type="dvs_global_flow" output="screen">
+
+    <!-- Input / Output -->
+    <!-- Which topic to listen? Map topic name of input events -->
+    <remap from="events" to="/dvs/events" />
+    <!-- <remap from="dvs_motion_compensated" to="/dvs/motion_compensated_image" /> -->
+
+    <!-- Printing level. The higher, the more details are printed -->
+    <param name="verbosity" value="1" />
+
+    <!-- Sliding Window -->
+    <!-- Number of events used to synthetize an image of warped events -->
+    <param name="num_events_per_image" value="50000" />
+    <!-- Number of events to slide for next window/packet of events -->
+    <param name="num_events_slide" value="25000" />
+
+    <!-- Initialisation -->
+    <!-- Number of motions -->
+    <param name="num_motions" value="5" />
+     <!-- Pixel Distance for the pool of motion initialization -->
+    <param name="pixel_distance" value="20" />
+     <!-- Number of directions for the pool of motion initialization -->
+    <param name="number_of_directions" value="16" />
+     <!-- Number of steps for the pool of motion initialization -->
+    <param name="number_of_pool_steps" value="50" />
+
+    <!-- Algorithm -->
+    <!-- Objective function to be optimized: 0=Variance, 1=Mean Square, etc.-->
+    <param name="contrast_measure" value="1" />
+    <!-- Event warping -->
+    <param name="gaussian_smoothing_sigma" value="1." />
+
+    <!-- Visualisation -->
+    <!-- Enables clustering -->
+    <param name="clustering_enabled" value="true" />
+    <!-- Threshold to cluster pixels -->
+    <param name="pixel_displaying_and_clustering_threshold" value="0.05" />
+     <!-- Max percentage difference when multiple motions get fused -->
+    <param name="max_percentage_difference" value="10" />
+  </node>
+
+</launch>
